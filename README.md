@@ -2,4 +2,4 @@
 
 ## Contents
 
-- [GCD](GCD/): The greatest common divisor exercise solution.
+- The greatest common divisor exercise solution.

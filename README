@@ -1,5 +1,11 @@
-# Random Stuff as a learning journal
+RANDOM STUFF AS A LEARNING JOURNAL
+==================================
 
-## Contents
+CONTENTS
+--------
 
-- The greatest common divisor exercise solution.
+* CHECK FILES IN THE TREE TAB
+
+
+- The greatest common divisor exercise solution in ROOT/GCD/GCD.c
+- Hexadecimal to integer converter solution in ROOT/HTOI/HTOI.c

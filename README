@@ -7,5 +7,6 @@ CONTENTS
 * CHECK FILES IN THE TREE TAB
 
 
-- The greatest common divisor exercise solution in ROOT/GCD/GCD.c
-- Hexadecimal to integer converter solution in ROOT/HTOI/HTOI.c
+- The greatest common divisor exercise solution, in ROOT/GCD/GCD.c
+- Hexadecimal to integer converter solution, in ROOT/HTOI/HTOI.c
+- Vowels and consonants counter of a string, in ROOT/VACC/VowelsAndConsonantCounter.c

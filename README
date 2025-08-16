@@ -11,3 +11,4 @@ CONTENTS
 - Hexadecimal to integer converter solution, in ROOT/HTOI/HTOI.c
 - Vowels and consonants counter of a string, in ROOT/VACC/VowelsAndConsonantCounter.c
 - Binary(28-bit) to decimal converter, in ROOT/BTD/28bitToDecimal.c
+- Palindrome words checker exercise, in ROOT/Palindrome/Palindrome.c

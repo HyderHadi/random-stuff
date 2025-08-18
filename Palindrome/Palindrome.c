@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 
-// i made string_length equal tp (-1) cause string indices start from number 0, probably there is a better way represent what i want :(
+// i made string_length equal to (-1) cause string indices start from number 0, probably there is a better way to represent what i want :(
 
 char *reverse_string(char *string_input) {
     int string_length = -1;

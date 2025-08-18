@@ -1,29 +1,32 @@
 #include <stdio.h>
 
-char *reverse(char *input) {
-    int len = -1;
-    for (int i = 0;input[i] != '\0'; i++) {
-        len += 1;
+
+// i made string_length equal tp (-1) cause string indices start from number 0, probably there is a better way represent what i want :(
+
+char *reverse_string(char *string_input) {
+    int string_length = -1;
+    for (int i = 0;string_input[i] != '\0'; i++) {
+        string_length += 1;
     }
-    for (int i = 0;i <= len;i++) {
-        char tmp = input[i];
-        input[i] = input[len];
-        input[len] = tmp;
-        len--;
+    for (int i = 0;i <= string_length;i++) {
+        char tmp = string_input[i];
+        string_input[i] = string_input[string_length];
+        string_input[string_length] = tmp;
+        string_length--;
     }
-    return input;
+    return string_input;
 }
 
-void compareString(char *input1, char *input2) {
-  int len = -1;
+void check_palidnrome(char *string_input1, char *string_input2) {
+  int string_length = -1;
   int flags = 0;
-  for (int i = 0;input1[i] != '\0';i++) {
-    len += 1;
+  for (int i = 0;string_input1[i] != '\0';i++) {
+    string_length += 1;
   }
-  for (int i = 0;i <= len;i++) {
-    if (input1[i] == input2[len]) {
+  for (int i = 0;i <= string_length;i++) {
+    if (string_input1[i] == string_input2[string_length]) {
       flags = 1;
-      len--;
+      string_length--;
     }
     else {
       flags = 0;
@@ -40,11 +43,11 @@ void compareString(char *input1, char *input2) {
 int main()
 {
 
-  printf("Get me a word to see if it is a palindrome\n\n");
-  char inp[1000];
-  while (scanf("%s", inp) != EOF) {
-    char *tmp = reverse(inp);
-    compareString(inp, tmp); 
+  printf("Get me a word to see if it is a palindrome[Capital letters excluded XD]\n\n");
+  char user_input[1000];
+  while (scanf("%s", user_input) != EOF) {
+    char *reversed = reverse_string(user_input);
+    check_palidnrome(user_input, reversed); 
   }
   return 0;
 }

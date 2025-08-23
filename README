@@ -13,3 +13,4 @@ CONTENTS
 - Binary(28-bit) to decimal converter, in ROOT/BTD/28bitToDecimal.c
 - Palindrome words checker exercise, in ROOT/Palindrome/Palindrome.c
 - Sorting numbers with (selection sort), in ROOT/SelectionSort/SelectionSort.c
+- Made a simple Rock, Paper, Scissor game, in ROOT/RPS/rps.c

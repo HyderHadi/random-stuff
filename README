@@ -14,3 +14,4 @@ CONTENTS
 - Palindrome words checker exercise, in ROOT/Palindrome/Palindrome.c
 - Sorting numbers with (selection sort), in ROOT/SelectionSort/SelectionSort.c
 - Made a simple Rock, Paper, Scissor game, in ROOT/RPS/rps.c
+- Made a simple Number Guessing Game (NGG) using node.js in terminal to learn JS basics, in ROOT/NGG/*

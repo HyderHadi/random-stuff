@@ -15,3 +15,4 @@ CONTENTS
 - Sorting numbers with (selection sort), in ROOT/SelectionSort/SelectionSort.c
 - Made a simple Rock, Paper, Scissor game, in ROOT/RPS/rps.c
 - Made a simple Number Guessing Game (NGG) using node.js in terminal to learn JS basics, in ROOT/NGG/*
+- Made the hangman game(a word guesser basically) in C, <3, in ROOT/HangManGame/HMG.c

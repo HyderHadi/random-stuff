@@ -17,3 +17,4 @@ CONTENTS
 - Made a simple Number Guessing Game (NGG) using node.js in terminal to learn JS basics, in ROOT/NGG/*
 - Made the hangman game(a word guesser basically) in C, <3, in ROOT/HangManGame/HMG.c
 - Added a simple snakes and ladders game as an exercise in C, in ROOT/snakesAndLadders/snakesANDladders.C
+- Added a folder containing simple-C-programs that i just wrote when i was absent and not coding for the past period.

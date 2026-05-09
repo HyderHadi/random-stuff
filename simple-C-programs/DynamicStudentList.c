@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 
 struct Student {
   char *__name;
-  int __age;
   int __mark;
+  int __age;
   struct Student *__next;
+  struct Student *__prev;
 };
 
 struct StudentList {
@@ -13,36 +16,52 @@ struct StudentList {
   struct Student *__tail;
   int __count;
 
-  // Methods;
-
-  int (*highest) (struct StudentList *self);
-  void (*sort) (struct StudentList *self);
+  // Methods
+  struct Student *(*highest) (struct StudentList self);
+  struct StudentList *(*sort) (struct StudentList self);
+  void (*put_student) (struct StudentList self, char *name, int age, int mark);
+  int (*size) (struct StudentList self);
+  void (*dump) (struct StudentList self);
+  struct Student *(*find) (struct StudentList self, char *name);
+  void (*destructor) (struct StudentList self);
 };
 
+// Private Functions
 
-int Highest_mark (struct StudentList *self) {
-  int def = 0;
-  int res;
-  struct Student *tmp = NULL;
+struct Student *__FIND (struct StudentList *self, char *name) {
 
-  if(self->__head != NULL) {
-    for(tmp = self->__head; self->__count > 0; tmp = tmp->__next) {
-      if(tmp->__mark > tmp->__next->__mark) {
-        res = tmp->__mark;
-      }
+  struct Student *current = NULL;
+
+
+  for(current = self->__head; current != NULL; current = current->__next) {
+    if(strcmp(name, current->__name) == 0) {
+      return current;
     }
-    return res;
+  }
+  return NULL;
+}
+
+void __PUT (struct StudentList *self, char *name, int age, int mark) {
+  
+  struct Student *old, *new;
+
+  old = __FIND(self, name);
+
+  if(old != NULL) {
+    old->__age = age;
+    old->__mark = mark;
+    return;
   }
 
-  return def;
+
 }
 
-void Sort_by_mark(struct StudentList *self) {
-  
-}
+
 
 
 int main() {
 
+  
+  
   return 0;
 }

@@ -1,10 +1,11 @@
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#define Name_size 32
 
-
-/* Objectives:  
+/* Objectives:
     1- Make a bare functional list (Doubly linked list)
     2- add the sort and the highest functions afterward
     3- add more features if things are going ok
@@ -17,11 +18,10 @@ struct Student {
   struct Student *__next;
   struct Student *__prev;
 
-
-  // Public Methods 
-  char *(*name) (struct Student *self);
-  int (*mark) (struct Student *self);
-  int (*age) (struct Student *self);
+  // Public Methods
+  char *(*name)(struct Student *self);
+  int (*mark)(struct Student *self);
+  int (*age)(struct Student *self);
 };
 
 struct StudentList {
@@ -30,39 +30,45 @@ struct StudentList {
   int __count;
 
   // Methods (public)
-  struct Student *(*highest) (struct StudentList *self);
-  struct StudentList *(*sort) (struct StudentList *self);
-  void (*put_student) (struct StudentList *self, char *name, int age, int mark);
-  int (*size) (struct StudentList *self);
-  void (*dump) (struct StudentList *self);
-  struct Student *(*find) (struct StudentList *self, char *name);
-  void (*destructor) (struct StudentList *self);
+  struct Student *(*highest)(struct StudentList *self);
+  struct StudentList *(*sort)(struct StudentList *self);
+  void (*put_student)(struct StudentList *self, char *name, int age, int mark);
+  int (*size)(struct StudentList *self);
+  void (*dump)(struct StudentList *self);
+  struct Student *(*find)(struct StudentList *self, char *name);
+  void (*destructor)(struct StudentList *self);
 };
 
 // Private Functions
 
-struct Student *__FIND (struct StudentList *self, char *name) {
+char *__NAME(struct Student *self) { return self->__name; }
+
+int __AGE(struct Student *self) { return self->__age; }
+
+int __MARK(struct Student *self) { return self->__mark; }
+
+struct Student *__FIND(struct StudentList *self, char *name) {
 
   struct Student *current = NULL;
 
-
-  for(current = self->__head; current != NULL; current = current->__next) {
-    if(strcmp(name, current->__name) == 0) {
+  for (current = self->__head; current != NULL; current = current->__next) {
+    if (strcmp(name, current->__name) == 0) {
       return current;
     }
   }
   return NULL;
 }
 
-void __PUT (struct StudentList *self, char *name, int age, int mark) {
-  
+void __PUT(struct StudentList *self, char *name, int age, int mark) {
+
   struct Student *old, *new;
 
-  if (name == NULL) return;
+  if (name == NULL)
+    return;
 
   old = __FIND(self, name);
 
-  if(old != NULL) {
+  if (old != NULL) {
     old->__age = age;
     old->__mark = mark;
     return;
@@ -76,11 +82,14 @@ void __PUT (struct StudentList *self, char *name, int age, int mark) {
   new->__name = malloc(strlen(name) + 1);
   strcpy(new->__name, name);
 
-  if(self->__head == NULL) {
+  if (self->__head == NULL) {
     self->__head = new;
     self->__tail = new;
     new->__next = NULL;
     new->__prev = NULL;
+    new->age = &__AGE;
+    new->mark = &__MARK;
+    new->name = &__NAME;
     self->__count++;
     return;
   }
@@ -89,32 +98,34 @@ void __PUT (struct StudentList *self, char *name, int age, int mark) {
   new->__prev = self->__tail;
   new->__next = NULL;
   self->__tail = new;
+  new->age = &__AGE;
+  new->mark = &__MARK;
+  new->name = &__NAME;
 
   self->__count++;
 }
 
-int __SIZE (struct StudentList *self) {
+int __SIZE(struct StudentList *self) { return self->__count; }
 
-  return self->__count;
-}
-
-void __DUMP (struct StudentList *self) {
+void __DUMP(struct StudentList *self) {
 
   struct Student *current;
 
-  for(current = self->__head; current != NULL;current = current->__next) {
+  for (current = self->__head; current != NULL; current = current->__next) {
 
-    printf("Name: %s\nAge: %d\nMark: %d\n", current->__name, current->__age, current->__mark);
+    printf("Name: %s\nAge: %d\nMark: %d\n", current->__name, current->__age,
+           current->__mark);
+    printf("------------------------------\n");
   }
 }
 
-void __Destructor (struct StudentList *self) {
+void __Destructor(struct StudentList *self) {
 
   struct Student *current, *tmp;
 
   current = self->__head;
 
-  while(current) {
+  while (current) {
     free(current->__name);
     tmp = current->__next;
     free(current);
@@ -123,22 +134,6 @@ void __Destructor (struct StudentList *self) {
 
   free(self);
 }
-
-char *__NAME (struct Student *self) {
-  return self->__name;
-}
-
-int __AGE (struct Student *self) {
-  return self->__age;
-}
-
-int __MARK (struct Student *self) {
-  return self->__mark;
-}
-
-
-
-
 
 // The CONSTRUCTOR (Public)
 
@@ -150,7 +145,7 @@ struct StudentList *STUDENTLIST() {
   S->__tail = NULL;
   S->__count = 0;
 
-  // Methods 
+  // Methods
   S->put_student = &__PUT;
   S->size = &__SIZE;
   S->dump = &__DUMP;
@@ -160,10 +155,28 @@ struct StudentList *STUDENTLIST() {
   return S;
 }
 
-
 int main() {
 
-  
-  
+  struct StudentList *list = STUDENTLIST();
+
+  list->put_student(list, "Hyder Hadi", 30, 99);
+  list->put_student(list, "Aya Hadi", 29, 99);
+  list->put_student(list, "Tabarak Hadi", 23, 99);
+  list->put_student(list, "Mustafa Firas", 30, 99);
+  list->put_student(list, "Hyder Hadi", 30, 88);
+  list->put_student(list, "Zarba wali", 27, 56);
+
+  list->dump(list);
+
+  struct Student *test = list->find(list, "Hyder Hadi");
+
+  if (!test) {
+    printf("The student wasnt found\n");
+  } else {
+    printf("The student was found: %s, Age: %d, Mark: %d\n", test->name(test),
+           test->age(test), test->mark(test));
+  }
+
+  list->destructor(list);
   return 0;
 }

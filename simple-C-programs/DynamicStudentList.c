@@ -279,7 +279,7 @@ int main() {
     case 1:
       printf("-Enter a student [Enter no. 2]\n-Find a student [Enter "
              "no. 3]\n-Sort students [Enter no. 4]\n-Show student entries[Enter "
-             "no. 5]\n-Find best student [Enter no. 6]\n-To exit [Enter no. 0]");
+             "no. 5]\n-Find best student [Enter no. 6]\n-To exit [Enter no. 0]\n");
       break;
     case 2:
       printf("name -> Enter -> Age -> Enter -> Mark -> Enter\n");

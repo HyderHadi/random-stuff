@@ -1,9 +1,10 @@
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define Name_size 32
+
+struct StudentList *STUDENTLIST();
+
 
 /* Objectives:
     1- Make a bare functional list (Doubly linked list)
@@ -37,6 +38,7 @@ struct StudentList {
   void (*dump)(struct StudentList *self);
   struct Student *(*find)(struct StudentList *self, char *name);
   void (*destructor)(struct StudentList *self);
+  void (*pop) (struct Student *self, struct StudentList *list);
 };
 
 // Private Functions
@@ -46,6 +48,32 @@ char *__NAME(struct Student *self) { return self->__name; }
 int __AGE(struct Student *self) { return self->__age; }
 
 int __MARK(struct Student *self) { return self->__mark; }
+
+void __POP(struct Student *self, struct StudentList *list) {
+
+    if (self == NULL || list == NULL)
+        return;
+
+    // if node is head
+    if (self->__prev == NULL) {
+        list->__head = self->__next;
+    } else {
+        self->__prev->__next = self->__next;
+    }
+
+    // if node is tail
+    if (self->__next == NULL) {
+        list->__tail = self->__prev;
+    } else {
+        self->__next->__prev = self->__prev;
+    }
+
+    list->__count--;
+
+    free(self->__name);
+    free(self);
+}
+
 
 struct Student *__FIND(struct StudentList *self, char *name) {
 
@@ -135,6 +163,50 @@ void __Destructor(struct StudentList *self) {
   free(self);
 }
 
+struct Student *__HIGHEST(struct StudentList *self) {
+
+    if (self == NULL || self->__head == NULL)
+        return NULL;
+
+    struct Student *current = self->__head;
+    struct Student *highest = self->__head;
+
+    while (current != NULL) {
+
+        if (current->__mark > highest->__mark) {
+            highest = current;
+        }
+
+        current = current->__next;
+    }
+
+    return highest;
+}
+
+
+struct StudentList *__SORT(struct StudentList *self) {
+
+    struct StudentList *S = STUDENTLIST();
+
+    while (self->__head != NULL) {
+
+        struct Student *highest = __HIGHEST(self);
+
+        if (highest == NULL)
+            break;
+
+        __PUT(S, highest->__name, highest->__age, highest->__mark);
+
+        __POP(highest, self);
+    }
+
+    return S;
+}
+
+
+
+
+
 // The CONSTRUCTOR (Public)
 
 struct StudentList *STUDENTLIST() {
@@ -151,32 +223,75 @@ struct StudentList *STUDENTLIST() {
   S->dump = &__DUMP;
   S->find = &__FIND;
   S->destructor = &__Destructor;
-
+  S->highest = &__HIGHEST;
+  S->sort = &__SORT;
+  S->pop = &__POP;
   return S;
 }
+
+// input functions (Public) 
+
+int intger_input() {
+    
+    int tmp;
+    
+    while(1) {
+        
+        if((scanf("%d", &tmp)) == 1) {
+        while(getchar() != '\n');
+        break;
+    }
+    
+    while(getchar() != '\n');
+    printf("Invalid input, try again: ");
+    }
+    
+    return tmp;
+}
+
+
+char *read_line() {
+    
+    char buffer[1024];
+    
+    if(fgets(buffer, sizeof(buffer), stdin) == NULL) {
+        return NULL;
+    }
+    
+    char *result = NULL;
+    result = malloc(strlen(buffer) + 1);
+    
+    strcpy(result, buffer);
+    
+    result[strcspn(result, "\n")] = '\0';
+    
+    return result;
+}
+
 
 int main() {
 
   struct StudentList *list = STUDENTLIST();
+  
+  list->put_student(list, "Hyder Hadi", 30, 100);
+  list->put_student(list, "Hyder tafi", 30, 90);
+  list->put_student(list, "Hyder safi", 30, 999);
+  list->put_student(list, "Hyder kafi", 30, 234);
+  
 
-  list->put_student(list, "Hyder Hadi", 30, 99);
-  list->put_student(list, "Aya Hadi", 29, 99);
-  list->put_student(list, "Tabarak Hadi", 23, 99);
-  list->put_student(list, "Mustafa Firas", 30, 99);
-  list->put_student(list, "Hyder Hadi", 30, 88);
-  list->put_student(list, "Zarba wali", 27, 56);
+  struct Student *best = list->highest(list);
+  
+  printf("Name of the best: %s, Grade: %d, Age: %d\n", best->name(best), best->mark(best), best->age(best));
+  
+  printf("\n");
+  
 
-  list->dump(list);
-
-  struct Student *test = list->find(list, "Hyder Hadi");
-
-  if (!test) {
-    printf("The student wasnt found\n");
-  } else {
-    printf("The student was found: %s, Age: %d, Mark: %d\n", test->name(test),
-           test->age(test), test->mark(test));
-  }
-
+  struct StudentList *sorted = list->sort(list);
+  
+  sorted->dump(sorted);
+  
+  sorted->destructor(sorted);
   list->destructor(list);
+  
   return 0;
 }

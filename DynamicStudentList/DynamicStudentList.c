@@ -311,6 +311,10 @@ int main() {
       free(name);
       break;
     case 4:
+      if (list->size(list) == 0) {
+        printf("No student available!, try a Entering some: ");
+        break;
+      }
       list = list->sort(list);
       if (list == NULL) {
         printf("No student available\n");
@@ -323,6 +327,7 @@ int main() {
     case 5:
       if (list->size(list) == 0) {
         printf("No student available!, try a Entering some: ");
+        break;
       }
       list->dump(list);
       break;
@@ -330,10 +335,11 @@ int main() {
     case 6:
       if (list->size(list) == 0) {
         printf("No student available!, try a Entering some: ");
+        break;
       }
 
       tmp = list->highest(list);
-      printf("The best student is: %s, Age: %d, Mark, %d\n", tmp->name(tmp),
+      printf("The best student is: %s, Age: %d, Mark: %d\n", tmp->name(tmp),
              tmp->age(tmp), tmp->mark(tmp));
       break;
 

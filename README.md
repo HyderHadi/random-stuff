@@ -42,8 +42,7 @@
   (learning linked lists and implementing one in a project)  
   `ROOT/DynamicStudentList/DynamicStudentList.c`
 
+- Hash Map with basic functions (learning hash map implementation with linear probing)  
+  `ROOT/HashMap/HashMap.c`
 ---
 
-## Notes
-
-Check the **Tree** tab to browse all files and folders.

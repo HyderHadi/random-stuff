@@ -44,5 +44,7 @@
 
 - Hash Map with basic functions (learning hash map implementation with linear probing)  
   `ROOT/HashMap/HashMap.c`
----
 
+- miniDB that uses my hash map to store persistent data :D  
+  `ROOT/miniDB/*`
+---
